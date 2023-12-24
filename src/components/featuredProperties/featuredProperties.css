@@ -7,6 +7,7 @@
 }
 
 .fpItem{
+  cursor: pointer;
   flex: 1;
   gap: 10px;
   display: flex;
@@ -25,6 +26,7 @@
 }
 
 .fpCity{
+  text-transform: capitalize;
   font-weight: 300;
 }
 
