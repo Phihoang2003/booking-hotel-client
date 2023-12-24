@@ -19,7 +19,7 @@ const PropertyList = () => {
       ) : (
         <>
           {data &&
-            images.map((img, index) => {
+            images?.map((img, index) => {
               return (
                 <div className="pListItem" key={index}>
                   <img src={img} alt="" className="pListImg" />
