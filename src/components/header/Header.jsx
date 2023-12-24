@@ -9,13 +9,17 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
+import Select from "@mui/material/Select";
+import { Box, FormControl, InputLabel, MenuItem } from "@mui/material";
+
+// or
 
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("");
@@ -28,6 +32,7 @@ const Header = ({ type }) => {
     },
   ]);
   const [openOptions, setOpenOptions] = useState(false);
+
   const [options, setOptions] = useState({
     adult: 1,
     children: 0,
@@ -45,13 +50,39 @@ const Header = ({ type }) => {
     });
   };
 
-  const {dispatch}=useContext(SearchContext);
-  const {  user } = useContext(AuthContext)
+  const { dispatch } = useContext(SearchContext);
+  const { user } = useContext(AuthContext);
   const handleSearch = () => {
-    dispatch({type:"NEW_SEARCH",payload:{destination,dates,options}})
+    dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
     navigate("/hotels", { state: { destination, dates, options } });
   };
+  const [searchDestination, setSearchDestionation] = useState('');
 
+  const handleChange = (event) => {
+    setDestination(event.target.value);
+    setSearchDestionation(event.target.value);
+  };
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setOpenDate(false);
+        setOpenOptions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openDate,openOptions]);
+
+  const handleToggleModal = () => {
+    setOpenDate(!openDate);
+    
+  };
   return (
     <div className="header">
       <div
@@ -90,16 +121,33 @@ const Header = ({ type }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
-            {!user&&<button className="headerBtn">Sign in / Register</button>}
+            {!user && <button className="headerBtn">Sign in / Register</button>}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
-                <input
+                {/* <input
                   type="text"
                   placeholder="Where are you going?"
                   className="headerSearchInput"
                   onChange={(e) => setDestination(e.target.value)}
-                />
+                /> */}
+              <Box sx={{ minWidth: 300 }}>
+                <FormControl fullWidth className="form-select1">
+                  <InputLabel id="demo-simple-select-label">Where are you going?</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={searchDestination}
+                    name="Where are you going?"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="berling">Belling</MenuItem>
+                    <MenuItem value="madrid">Madrid</MenuItem>
+                    <MenuItem value="london">London</MenuItem>
+                  </Select>
+                </FormControl>
+
+                </Box>
               </div>
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faCalendarDays} className="headerIcon" />
@@ -111,7 +159,8 @@ const Header = ({ type }) => {
                   "MM/dd/yyyy"
                 )}`}</span>
                 {openDate && (
-                  <DateRange
+                  <div ref={modalRef}>
+                    <DateRange
                     editableDateInputs={true}
                     onChange={(item) => setDates([item.selection])}
                     moveRangeOnFirstSelection={false}
@@ -119,6 +168,7 @@ const Header = ({ type }) => {
                     className="date"
                     minDate={new Date()}
                   />
+                  </div>
                 )}
               </div>
               <div className="headerSearchItem">
@@ -128,7 +178,7 @@ const Header = ({ type }) => {
                   className="headerSearchText"
                 >{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
                 {openOptions && (
-                  <div className="options">
+                  <div className="options" ref={modalRef}>
                     <div className="optionItem">
                       <span className="optionText">Adult</span>
                       <div className="optionCounter">
