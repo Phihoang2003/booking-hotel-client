@@ -65,20 +65,32 @@
 .headerIcon {
   color: lightgray;
 }
-
+.date{
+  top: 59px !important;
+  right: 327px !important
+}
 .headerSearchItem {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
+.form-select1{
+  border:3px solid #febb02
+}
+.form-select1:focus{
+  border:3px solid #febb02
+}
+.css-1jy569b-MuiFormLabel-root-MuiInputLabel-root{
+  color: white !important;
+  top:-7px !important
+}
 .headerSearchInput {
   border: none;
   outline: none;
 }
 
 .headerSearchText {
-  color: lightgray;
+  color: black;
   cursor: pointer;
 }
 

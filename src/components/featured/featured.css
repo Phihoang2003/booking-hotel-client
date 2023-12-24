@@ -8,6 +8,7 @@
 }
 
 .featuredItem{
+  cursor: pointer;
   position: relative;
   color: white;
   border-radius: 10px;
