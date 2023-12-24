@@ -1,12 +1,14 @@
 .pList{
+  cursor: pointer;
   width: 100%;
-  max-width: 1024px;
+  max-width: 1024px;  
   display: flex;
   justify-content: space-between;
   gap: 20px;
 }
 
 .pListItem{
+  
   flex:1;
   border-radius: 10px;
   overflow: hidden;

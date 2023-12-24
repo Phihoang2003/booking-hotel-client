@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch.js";
 import "./propertyList.css";
+import { useState } from "react";
 
 const PropertyList = () => {
   const { data, loading, error } = useFetch("/hotel/countByType");
@@ -11,9 +13,22 @@ const PropertyList = () => {
     "https://cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-villas_300/dd0d7f8202676306a661aa4f0cf1ffab31286211.jpg",
     "https://cf.bstatic.com/static/img/theme-index/carousel_320x240/card-image-chalet_300/8ee014fcc493cb3334e25893a1dee8c6d36ed0ba.jpg",
   ];
-
+  const navigate=useNavigate()
+  const [destination,setDestination]=useState("")
+  const [options, setOptions] = useState({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+  const [dates, setDates] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
   return (
-    <div className="pList">
+    <div className="pList" onClick={()=>navigate("/hotels",{ state: { destination,dates,options } })}>
       {loading ? (
         "Loading please"
       ) : (
