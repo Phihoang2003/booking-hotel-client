@@ -10,15 +10,27 @@ import useFetch from "../../hooks/useFetch.js";
 
 const List = () => {
   const location = useLocation();
-  const [destination, setDestination] = useState(location.state.destination);
-  const [dates, setDates] = useState(location.state.dates);
+  
+  const [destination, setDestination] = useState(location.state.destination||"");
+  
+  const [dates, setDates] = useState(location.state.dates||[
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
   const [openDate, setOpenDate] = useState(false);
-  const [options, setOptions] = useState(location.state.options);
+  const [options, setOptions] = useState(location.state.options||{
+    adult: 1,
+    children: 0,
+    room: 1,
+  })
   const [min,setMin]=useState(undefined);
   const [max,setMax]=useState(undefined)
 
-  const {data,loading,error,reFetch}=useFetch(`/hotel?city=${destination}&min=${min || 0 }&max=${max || 999}`)
-
+  var {data,loading,reFetch}=useFetch(`/hotel?city=${destination}&min=${min || 0 }&max=${max || 999}`)
+  var {data:dataGetAll}=useFetch(`/hotel`)
   const handleClick=()=>{
     reFetch();
   }
@@ -97,14 +109,16 @@ const List = () => {
           </div>
           <div className="listResult">
             {loading?"Loading Please":<>
-              {data.map(item=>{
+              {data.length!==0?data.map(item=>{
                 return(
                   <SearchItem item={item} key={item._id} />
-
+                )
+              }):dataGetAll.map(item=>{
+                return(
+                  <SearchItem item={item} key={item._id} />
                 )
               })}
             </>}
-            
           </div>
         </div>
       </div>
