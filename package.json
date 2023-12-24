@@ -48,5 +48,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://vercel.com/phis-projects-e1e1904d/booking-hotel-api"
+  "proxy": "https://booking-hotel-client.vercel.app/"
 }
