@@ -17,9 +17,7 @@ const FeaturedProperties = () => {
       key: "selection",
     },
   ]
-  console.log(
-    "data",dates
-  );
+  
   const navigate=useNavigate()
   const handleItemClick = (itemId) => {
     navigate(`/hotels/${itemId}`,{ state: { dates } });

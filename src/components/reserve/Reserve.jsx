@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Reserve = ({ setOpen, hotelId }) => {
   const { loading, data, error } = useFetch(`/hotel/room/${hotelId}`);
   const [selectedRoom, setSelectedRoom] = useState([]);
-  const { dates } = useContext(SearchContext);
+  var { dates } = useContext(SearchContext);
   const navigate=useNavigate()
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -24,6 +24,15 @@ const Reserve = ({ setOpen, hotelId }) => {
     }
     return list;
   };
+  if(dates.length===0){
+    dates=[
+      {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+      },
+    ]
+  }
   const allDates = getDatesInRange(dates[0].startDate, dates[0].endDate);
 
   const isAvailable = (roomNumber) => {
@@ -55,7 +64,7 @@ const Reserve = ({ setOpen, hotelId }) => {
     } catch (error) {}
   };
 
-  console.log(selectedRoom);
+  
   return (
     <div className="reserve">
       <div className="rContainer">
@@ -68,7 +77,7 @@ const Reserve = ({ setOpen, hotelId }) => {
         <span>Selected your room:</span>
         {data.map((item) => {
           return (
-            <div className="rItem">
+            <div key={item._id} className="rItem">
               <div className="rInfo">
                 <div className="rTitle">{item.title}</div>
                 <div className="rDesc">{item.desc}</div>
@@ -80,7 +89,7 @@ const Reserve = ({ setOpen, hotelId }) => {
               <div className="rSelectRooms">
                 {item.roomNumbers.map((roomNumber) => {
                   return (
-                    <div className="room">
+                    <div key={roomNumber._id} className="room">
                       <label>{roomNumber.number}</label>
                       <input
                         type="checkbox"

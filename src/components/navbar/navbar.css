@@ -4,7 +4,9 @@
   display: flex;
   justify-content: center;
 }
-
+.note{
+  width: fit-content;
+}
 .navContainer{
   width: 100%;
   max-width: 1024px;

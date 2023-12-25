@@ -25,9 +25,7 @@ const Featured = () => {
   const handleSearch = (name) => {
     setDestination(name);
     dispatch({ type: "NEW_SEARCH", payload: { destination:name,dates,options } });
-    console.log(
-      "destination",destination
-    );
+    
     navigate("/hotels", { state: { destination:name,dates,options } });
   };
   return (
