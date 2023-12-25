@@ -3,6 +3,9 @@ import "./featuredProperties.css";
 import { useNavigate } from "react-router-dom";
 const FeaturedProperties = () => {
   const { loading, data } = useFetch("/hotel?features=true");
+  console.log(
+    "data",data
+  );
   const navigate=useNavigate()
   const handleItemClick = (itemId) => {
     navigate(`/hotels/${itemId}`);
