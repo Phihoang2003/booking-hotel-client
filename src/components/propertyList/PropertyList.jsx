@@ -27,6 +27,7 @@ const PropertyList = () => {
       key: "selection",
     },
   ]);
+  console.log("dates before",dates);
   return (
     <div className="pList" onClick={()=>navigate("/hotels",{ state: { destination,dates,options } })}>
       {loading ? (

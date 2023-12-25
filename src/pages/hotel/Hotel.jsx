@@ -23,8 +23,8 @@ const Hotel = () => {
   const [openModal, setOpenModal] = useState(false);
   const location = useLocation();
   const id = location.pathname.split("/")[2];
-  const { data, loading, error } = useFetch(`/hotel/find/${id}`);
-  const { dates, options } = useContext(SearchContext);
+  const { data, loading } = useFetch(`/hotel/find/${id}`);
+  var { dates, options } = useContext(SearchContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -33,6 +33,15 @@ const Hotel = () => {
     const timeDiff = Math.abs(date2.getTime() - date1.getTime());
     const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
     return diffDays;
+  }
+  if(dates.length===0){
+    dates=[
+      {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+      },
+    ]
   }
   const days = dayDifference(dates[0].endDate, dates[0].startDate);
 

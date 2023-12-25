@@ -1,14 +1,28 @@
+import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import "./featuredProperties.css";
 import { useNavigate } from "react-router-dom";
 const FeaturedProperties = () => {
   const { loading, data } = useFetch("/hotel?features=true");
+  const [destination,setDestination]=useState("")
+  const [options, setOptions] = useState({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+  const dates=[
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]
   console.log(
-    "data",data
+    "data",dates
   );
   const navigate=useNavigate()
   const handleItemClick = (itemId) => {
-    navigate(`/hotels/${itemId}`);
+    navigate(`/hotels/${itemId}`,{ state: { dates } });
   };
   return (
     <div className="fp">
